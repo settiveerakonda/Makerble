@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Makerble</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="./javascript/Event.js" rel="stylesheet">
+  <link href="./javascript/feedback.js" rel="stylesheet">
+  <link href="./javascript/organization.js" rel="stylesheet">
+  <link href="./javascript/project.js" rel="stylesheet">
+  <link href="./javascript/Task.js" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .hover-shadow:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .close {
+      float: right;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-primary shadow p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <img src="./log.png" alt="Logo" class="h-8" >
+      <input type="text" placeholder="Search for Events, Projects..." class="border p-2 rounded w-64 focus:outline-none" style="margin-top: 20px;">
+    </div>
+    <div class="flex items-center space-x-6">
+      <button id="newEventBtn" class="bg-white-500  px-4 py-2 rounded">New Event</button>
+      <div class="relative">
+        <button class=" p-2 rounded-full shadow">
+          <i class="fas fa-bell h-6"></i> 
+        </button>
+        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded-full">3</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-user-tie"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="flex">
+    <!-- Sidebar Navigation -->
+    <aside class="w-1/4 shadow p-10" style="background-color:#4594e5e8;">
+        <nav class="space-y-4">
+          <a href="#" id="eventsTab" class="block p-2 rounded hover:bg-gray-100 flex items-center space-x-2">📅 Events</a>
+          <a href="#" id="projectsTab" class="block p-2 rounded hover:bg-gray-100 flex items-center space-x-2">📝 Projects</a>
+          <a href="#" id="taskTab" class="block p-2 rounded hover:bg-gray-100 flex items-center space-x-2">📝 Tasks</a>
+          <a href="#" id="contentTab" class="block p-2 rounded hover:bg-gray-100 flex items-center space-x-2">📇 Content</a>
+          <a href="#" id="feedbackTab" class="block p-2 rounded hover:bg-gray-100 flex items-center space-x-2">📊 Feedback</a>
+          <a href="#" id="organizationsTab" class="block p-2 rounded hover:bg-gray-100 flex items-center space-x-2">🏢 Organizations</a>
+  
+        </nav>
+      </aside>
+    
+
+    <!-- Main Dashboard Content -->
+    <main class="container p-4">
+      <!-- Events Section -->
+      <section id="eventsSection" class="visible">
+          <h1 class="h2">Events</h1>
+          <div class="row g-3" id="eventsList">
+              <!-- Predefined events -->
+              <div class="col-md-6 col-lg-4">
+                  <div class="card p-4 shadow">
+                      <h3 class="h5">Tech Conference 2024</h3>
+                      <p><strong>Date:</strong> 2024-03-15</p>
+                      <p><strong>Description:</strong> Join us for our annual tech conference where industry leaders will share insights and trends.</p>
+                      <div class="d-flex align-items-center mt-2">
+                          <button class="like-btn btn btn-success me-2">👍 Like</button>
+                          <span class="like-count">0 Likes</span>
+                          <button class="comment-btn btn btn-info ms-3">💬 Comment</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                  <div class="card p-4 shadow">
+                      <h3 class="h5">Hackathon</h3>
+                      <p><strong>Date:</strong> 2024-05-10</p>
+                      <p><strong>Description:</strong> Participate in our 24-hour hackathon and showcase your coding skills for a chance to win prizes!</p>
+                      <div class="d-flex align-items-center mt-2">
+                          <button class="like-btn btn btn-success me-2">👍 Like</button>
+                          <span class="like-count">0 Likes</span>
+                          <button class="comment-btn btn btn-info ms-3">💬 Comment</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                  <div class="card p-4 shadow">
+                      <h3 class="h5">Monthly Team Building</h3>
+                      <p><strong>Date:</strong> 2024-06-20</p>
+                      <p><strong>Description:</strong> Join us for a day of team-building activities to strengthen collaboration and communication.</p>
+                      <div class="d-flex align-items-center mt-2">
+                          <button class="like-btn btn btn-success me-2">👍 Like</button>
+                          <span class="like-count">0 Likes</span>
+                          <button class="comment-btn btn btn-info ms-3">💬 Comment</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Content Section -->
+      <section id="contentSection" class="hidden">
+          <h1 class="h2">Content</h1>
+          <div class="row g-3 mt-4">
+              <!-- Card 1: Call Us -->
+              <div class="col-sm-6 col-md-4">
+                  <div class="card bg-white shadow-lg p-4">
+                      <i class="fa-solid fa-phone"></i>
+                      <h3 class="h5">Give Us a Call</h3>
+                      <p class="text-muted">Phone: <a href="tel:+4420812362531" class="text-primary">+442081236253</a></p>
+                  </div>
+              </div>
+  
+              <!-- Card 2: Visit Our Office -->
+              <div class="col-sm-6 col-md-4">
+                  <div class="card bg-white shadow-lg p-4">
+                      <i class="fa-solid fa-building"></i>
+                      <h3 class="h5">Visit Our Office</h3>
+                      <p class="text-muted">Makerble, London Incubation Center,<br>FVGJ+FV London, United Kingdom</p>
+                  </div>
+              </div>
+  
+              <!-- Card 3: Registered Office Address -->
+              <div class="col-sm-6 col-md-4">
+                  <div class="card bg-white shadow-lg p-4">
+                      <i class="fa-solid fa-house-chimney"></i>
+                      <h3 class="h5">Registered Office Address</h3>
+                      <p class="text-muted">c/o Friends of the Earth, The Printworks, 139 Clapham Road, London SW9 0HP, United Kingdom<br>FVGJ+FV London, United Kingdom</p>
+                  </div>
+              </div>
+  
+              <!-- Card 4: Online Chat -->
+              <div class="col-sm-6 col-md-4">
+                  <div class="card bg-white shadow-lg p-4">
+                      <i class="fa-regular fa-message"></i>
+                      <h3 class="h5">Online Chat</h3>
+                      <p class="text-muted">Email: <a href="mailto:hello@makerble.com" class="text-primary">hello@makerble.com</a></p>
+                  </div>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Projects Section -->
+      <section id="projectsSection" class="hidden">
+          <h1 class="h2">Projects</h1>
+          <button id="newProjectBtn"  class="btn btn-primary mb-4">Add Project</button>
+          <div id="projectsList" class="row g-3">
+              <!-- Predefined project cards (optional) -->
+              <div class="col-md-6 col-lg-4">
+                  <div class="card bg-white p-4 rounded shadow">
+                      <h3 class="h5">Project Alpha</h3>
+                      <p><strong>Description:</strong> A brief description of Project Alpha.</p>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                  <div class="card bg-white p-4 rounded shadow">
+                      <h3 class="h5">Project Beta</h3>
+                      <p><strong>Description:</strong> A brief description of Project Beta.</p>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                  <div class="card bg-white p-4 rounded shadow">
+                      <h3 class="h5">Project Gamma</h3>
+                      <p><strong>Description:</strong> A brief description of Project Gamma.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Feedback Section -->
+      <section id="feedbackSection" class="hidden">
+          <h1 class="h2">Feedback</h1>
+          <button id="newFeedbackBtn" class="btn btn-primary mb-4">Create Feedback</button>
+          <div id="feedbackList" class="mt-4">
+              <!-- Predefined feedback (optional) -->
+              <div class="feedback-card bg-white p-4 rounded shadow mb-2">
+                  <p><strong>User 1:</strong> This application is fantastic! I love the user interface.</p>
+              </div>
+              <div class="feedback-card bg-white p-4 rounded shadow mb-2">
+                  <p><strong>User 2:</strong> The navigation is smooth, but I wish there were more features.</p>
+              </div>
+              <div class="feedback-card bg-white p-4 rounded shadow mb-2">
+                  <p><strong>User 3:</strong> Great job! I appreciate the responsiveness of the app.</p>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Task Section -->
+      <section id="taskSection" class="hidden">
+          <h1 class="h2">Tasks</h1>
+          <button id="newTaskBtn"  class="btn btn-primary mb-4">Create Task</button>
+          <div id="taskList" class="row g-3">
+              <!-- Predefined tasks (optional) -->
+              <div class="col-md-6 col-lg-4">
+                  <div class="task-card bg-white p-4 rounded shadow mb-2">
+                      <p><strong>Task 1:</strong> Complete the project documentation.</p>
+                      <p><strong>Status:</strong> To Do</p>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                  <div class="task-card bg-white p-4 rounded shadow mb-2">
+                      <p><strong>Task 2:</strong> Attend the team meeting on Thursday.</p>
+                      <p><strong>Status:</strong> In Progress</p>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-4">
+                  <div class="task-card bg-white p-4 rounded shadow mb-2">
+                      <p><strong>Task 3:</strong> Submit the code review by Friday.</p>
+                      <p><strong>Status:</strong> Completed</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+  
+      <!-- Organizations Section -->
+      <section id="organizationsSection" class="hidden">
+          <h1 class="h2">Organizations</h1>
+          <button id="newOrganizationBtn"  class="btn btn-primary mb-4">Add Organization</button>
+          <div id="organizationsList" class="row g-3">
+              <!-- Predefined organizations (optional) -->
+              <div class="organization-card bg-white p-4 rounded shadow mb-2">
+                  <p><strong>Organization 1:</strong> Environmental Conservation Society</p>
+                  <p><strong>Description:</strong> A nonprofit organization dedicated to preserving the environment.</p>
+              </div>
+              <div class="organization-card bg-white p-4 rounded shadow mb-2">
+                  <p><strong>Organization 2:</strong> Tech for Good</p>
+                  <p><strong>Description:</strong> A community-driven initiative to use technology for social impact.</p>
+              </div>
+              <div class="organization-card bg-white p-4 rounded shadow mb-2">
+                  <p><strong>Organization 3:</strong> Community Health Network</p>
+                  <p><strong>Description:</strong> An organization focused on improving health outcomes in underserved communities.</p>
+              </div>
+          </div>
+      </section>
+  </main>
+  
+
+<!-- Event Modal -->
+<div id="eventModal" class="modal hidden">
+  <div class="modal-content">
+      <span id="closeEventModal" class="close">&times;</span>
+      <h2>Add New Event</h2>
+      <label for="eventName">Event Name:</label>
+      <input type="text" id="eventName" required>
+      
+      <label for="eventDate">Event Date:</label>
+      <input type="date" id="eventDate" required>
+      
+      <label for="eventDescription">Description:</label>
+      <textarea id="eventDescription" rows="4" required></textarea>
+      
+      <button id="addEventBtn">Add Event</button>
+  </div>
+  
+  <script src="/javascript/Event.js"></script>
+</div>
+
+<!-- Events List -->
+<div id="eventsList"></div>
+
+
+<!-- Add Project Modal -->
+<div id="projectModal" class="modal hidden" style="margin-left: 20px;">
+  <div class="modal-content">
+    <span id="closeProjectModal" class="close">&times;</span>
+    <h2>Add New Project</h2>
+    <label for="projectName">Project Name:</label>
+    <input type="text" id="projectName" class="border p-2 w-full mb-4" required>
+    
+    <label for="projectDescription">Project Description:</label>
+    <textarea id="projectDescription" rows="4" class="border p-2 w-full mb-4" required></textarea>
+    
+    <button id="addProjectBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Add Project</button>
+  </div>
+  <script src="./javascript/project.js"></script>
+</div>
+
+
+<!-- Add feedback modal -->
+<div id="feedbackModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="closeFeedbackModal">&times;</span>
+    <h2 class="text-lg font-bold">Create Feedback</h2>
+    <input type="text" id="feedbackText" placeholder="Feedback Text" class="border p-2 rounded w-full mb-4">
+    <button id="addFeedbackBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Feedback</button>
+  </div>
+</div>
+<script src="./javascript/feedback.js"></script>
+  
+
+
+<!-- Add Task Modal -->
+<div id="taskModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="closeTaskModal">&times;</span>
+    <h2 class="text-lg font-bold">Create Task</h2>
+    <input type="text" id="taskTitle" placeholder="Task Title" class="border p-2 rounded w-full mb-2">
+    <textarea id="taskDescription" placeholder="Task Description" class="border p-2 rounded w-full mb-2"></textarea>
+    <select id="taskStatus" class="border p-2 rounded w-full mb-4">
+      <option value="To Do">To Do</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <button id="addTaskBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Task</button>
+  </div>
+  </div>
+<script src="./javascript/Task.js"></script>
+
+
+<!-- Add Organization Modal -->
+<div id="organizationModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="closeOrganizationModal">&times;</span>
+    <h2 class="text-lg font-bold">Add Organization</h2>
+    <input type="text" id="organizationName" placeholder="Organization Name" class="border p-2 rounded w-full mb-2">
+    <textarea id="organizationDescription" placeholder="Organization Description" class="border p-2 rounded w-full mb-2"></textarea>
+    <button id="addOrganizationBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Organization</button>
+  </div>
+</div>
+<script src="./javascript/organization.js"></script>
+</body>
+</html>
